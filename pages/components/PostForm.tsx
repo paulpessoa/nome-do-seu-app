@@ -98,9 +98,9 @@ const PostForm = () => {
         editor.chain().focus().toggleItalic().run();
     };
 
-    const toggleUnderline = () => {
-        editor.chain().focus().toggleUnderline().run();
-    };
+    // const toggleUnderline = () => {
+    //     editor.chain().focus().toggleUnderline().run();
+    // };
 
     const handleSubmit = async () => {
         const content = editor.getHTML(); // Obtém o conteúdo HTML do editor
@@ -147,9 +147,9 @@ const PostForm = () => {
                 <ToggleButton value="italic" aria-label="italic" onClick={toggleItalic}>
                     <FormatItalicIcon />
                 </ToggleButton>
-                <ToggleButton value="underlined" aria-label="underlined" onClick={toggleUnderline}>
+                {/* <ToggleButton value="underlined" aria-label="underlined" onClick={toggleUnderline}>
                     <FormatUnderlinedIcon />
-                </ToggleButton>
+                </ToggleButton> */}
                 <ToggleButton
                     component="label"
                     value="insertImage"
