@@ -19,13 +19,10 @@
     "@tiptap/react": "^2.3.0",
     "@tiptap/starter-kit": "^2.3.0",
     "axios": "^1.6.8",
-    "draft-js": "^0.11.7",
     "next": "12.2.3",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "^6.23.0",
-    "slate": "^0.103.0",
-    "slate-react": "^0.102.0"
   },
   "devDependencies": {
     "@types/node": "^20.12.7",
