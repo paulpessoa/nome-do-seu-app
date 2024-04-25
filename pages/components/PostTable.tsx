@@ -7,13 +7,14 @@ import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper
 const PostTable = () => {
   const [posts, setPosts] = useState([]);
   const router = useRouter();
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
   useEffect(() => {
     // Função para buscar todos os posts e atualizar o estado
     const fetchPosts = async () => {
       try {
         // Realizar a requisição para obter todos os posts
-        const response = await fetch('http://localhost:3004/posts');
+        const response = await fetch(`${apiUrl}/posts`);
         if (!response.ok) {
           throw new Error('Failed to fetch posts');
         }

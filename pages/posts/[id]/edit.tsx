@@ -20,6 +20,7 @@ import OrderedList from '@tiptap/extension-ordered-list';
 import Paragraph from '@tiptap/extension-paragraph';
 import Strike from '@tiptap/extension-strike';
 import Text from '@tiptap/extension-text';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 const EditPostPage = ({ post }) => {
   const router = useRouter();
@@ -62,7 +63,7 @@ const EditPostPage = ({ post }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:3004/posts/${editedPost.id}`, {
+      const response = await fetch(`${apiUrl}/posts/${editedPost.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
@@ -126,7 +127,7 @@ export async function getServerSideProps(context) {
   const { id } = context.query;
 
   try {
-    const response = await fetch(`http://localhost:3004/posts/${id}`);
+    const response = await fetch(`${apiUrl}/posts/${id}`);
     if (!response.ok) {
       throw new Error('Failed to fetch post');
     }

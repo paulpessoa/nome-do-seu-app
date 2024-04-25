@@ -1,12 +1,13 @@
 
 import { Button, Container, Stack, Typography } from '@mui/material';
 import { useRouter } from 'next/router';
+const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
 // Função para obter dados do servidor
 export async function getServerSideProps(context) {
   // Simulação de dados do servidor (pode ser substituído por uma chamada a uma API real)
   const { id } = context.params;
-  const data = await fetch(`http://localhost:3004/posts/${id}`);
+  const data = await fetch(`${apiUrl}/posts/${id}`);
   const post = await data.json();
 
   return {
