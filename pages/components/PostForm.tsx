@@ -114,6 +114,7 @@ const PostForm = () => {
                 },
                 body: JSON.stringify({ title, content, tags }),
             });
+            console.log("O QUE TEM AQUI",response);
             if (response.ok) {
                 console.log('Conteúdo do post enviado com sucesso!');
             } else {
