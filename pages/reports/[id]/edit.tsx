@@ -119,20 +119,7 @@ const EditReportPage = ({ report }) => {
             aria-label="inserir imagem"
           >
             <InsertPhotoIcon />
-            <input
-              type="file"
-              accept="image/*"
-              style={{ display: 'none' }}
-              onChange={(e) => {
-                const file = e.target.files[0];
-                const reader = new FileReader();
-                reader.onload = (e) => {
-                  const src = e.target.result;
-                  editor.chain().focus().setImage({ src }).run();
-                };
-                reader.readAsDataURL(file);
-              }}
-            />
+
           </ToggleButton>
         </ToggleButtonGroup>
 
