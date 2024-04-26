@@ -7,51 +7,51 @@ const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 export async function getServerSideProps(context) {
   // Simulação de dados do servidor (pode ser substituído por uma chamada a uma API real)
   const { id } = context.params;
-  const data = await fetch(`${apiUrl}/posts/${id}`);
-  const post = await data.json();
+  const data = await fetch(`${apiUrl}/reports/${id}`);
+  const report = await data.json();
 
   return {
     props: {
-      post,
+      report,
     },
   };
 }
 
 // Componente de página dinâmica
-export default function DynamicPage({ post }) {
+export default function DynamicPage({ report }) {
   const router = useRouter();
 
   const handleEdit = () => {
-    router.push(`/posts/${post.id}/edit`);
+    router.push(`/reports/${report.id}/edit`);
   };
-  
+
   const handleVotlar = () => {
     router.push("/");
   };
 
 
-  // Verificando se os dados do post ainda estão sendo carregados
+  // Verificando se os dados do report ainda estão sendo carregados
   if (router.isFallback) {
     return <div>Loading...</div>;
   }
 
-  // Renderizando a página com os dados do post
+  // Renderizando a página com os dados do report
   return (
     <Container maxWidth="md">
       <Stack flexDirection="row" justifyContent="space-between" p={2}>
 
-        <Button variant="contained" color="primary" onClick={handleVotlar}>
-          voltar
+        <Button variant="contained" color="primary" size="small" onClick={handleVotlar}>
+          Voltar
         </Button>
-        <Typography variant="h4" component="h1" gutterBottom>
-          {post.title}
+        <Typography fontSize={20} gutterBottom>
+          {report.title}
         </Typography>
-        <Button variant="contained" color="primary" onClick={handleEdit}>
-          EDITAR
+        <Button variant="contained" color="primary" size="small" onClick={handleEdit}>
+          Editar
         </Button>
       </Stack>
 
-      <div dangerouslySetInnerHTML={{ __html: post.content }} />
+      <div dangerouslySetInnerHTML={{ __html: report.content }} />
     </Container>
   );
 }

@@ -2,8 +2,10 @@ import React, { useRef, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Image from '@tiptap/extension-image';
-// import Blockquote from '@tiptap/extension-blockquote';
+import Text from '@tiptap/extension-text';
+import Italic from '@tiptap/extension-italic';
 import Bold from '@tiptap/extension-bold';
+// import Blockquote from '@tiptap/extension-blockquote';
 // import BulletList from '@tiptap/extension-bullet-list';
 // import Code from '@tiptap/extension-code';
 // import CodeBlock from '@tiptap/extension-code-block';
@@ -12,19 +14,32 @@ import Bold from '@tiptap/extension-bold';
 // import HardBreak from '@tiptap/extension-hard-break';
 // import Heading from '@tiptap/extension-heading';
 // import HorizontalRule from '@tiptap/extension-horizontal-rule';
-import Italic from '@tiptap/extension-italic';
 // import ListItem from '@tiptap/extension-list-item';
 // import OrderedList from '@tiptap/extension-ordered-list';
 // import Paragraph from '@tiptap/extension-paragraph';
 // import Strike from '@tiptap/extension-strike';
-import Text from '@tiptap/extension-text';
-import { ToggleButton, ToggleButtonGroup, Button, TextField } from '@mui/material';
+import { ToggleButton, ToggleButtonGroup, Button, TextField, Stack } from '@mui/material';
 import InsertPhotoIcon from '@mui/icons-material/InsertPhoto';
+import { useRouter } from 'next/router';
+import CandlestickChartIcon from '@mui/icons-material/CandlestickChart';
 import FormatBoldIcon from '@mui/icons-material/FormatBold';
 import FormatItalicIcon from '@mui/icons-material/FormatItalic';
 import FormatUnderlinedIcon from '@mui/icons-material/FormatUnderlined';
+import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
+import FormatListNumberedIcon from '@mui/icons-material/FormatListNumbered';
+import FormatQuoteIcon from '@mui/icons-material/FormatQuote';
+import Underline from '@tiptap/extension-underline';
+import BulletList from '@tiptap/extension-bullet-list';
+import OrderedList from '@tiptap/extension-ordered-list';
+import Blockquote from '@tiptap/extension-blockquote';
 
-const PostForm = () => {
+const ReportForm = () => {
+    const router = useRouter();
+    const handleVoltar = () => {
+        router.push('/');
+    };
+
+
     const [title, setTitle] = useState('');
     const [tags, setTags] = useState('');
     const editor = useEditor({
@@ -34,6 +49,10 @@ const PostForm = () => {
             Bold,
             Italic,
             Text,
+            Underline, // Adicione a extensão de sublinhado
+            BulletList, // Adicione a extensão de lista com marcadores
+            OrderedList, // Adicione a extensão de lista numerada
+            Blockquote, // Adicione a extensão de citação
             // Blockquote,
             // BulletList,
             // Code,
@@ -48,7 +67,7 @@ const PostForm = () => {
             // Paragraph,
             // Strike,
         ],
-        content: '<p>Hello World! 🌎️</p>',
+        content: '<p>Escreva aqui ...</p>',
     });
 
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -98,30 +117,32 @@ const PostForm = () => {
         editor.chain().focus().toggleItalic().run();
     };
 
-    // const toggleUnderline = () => {
-    //     editor.chain().focus().toggleUnderline().run();
-    // };
+    const toggleUnderline = () => { // Defina a função para alternar o sublinhado
+        editor.chain().focus().toggleUnderline().run();
+    };
 
     const handleSubmit = async () => {
         const apiUrl = process.env.NEXT_PUBLIC_API_URL;
 
         const content = editor.getHTML(); // Obtém o conteúdo HTML do editor
         try {
-            const response = await fetch(`${apiUrl}/posts`, {
+            const response = await fetch(`${apiUrl}/reports`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({ title, content, tags }),
             });
-            console.log("O QUE TEM AQUI",response);
+            console.log("O QUE TEM AQUI", response);
             if (response.ok) {
-                console.log('Conteúdo do post enviado com sucesso!');
+                const report = await response.json();
+                console.log('Report criado:', report);
+                router.push(`/reports/${report.id}`);
             } else {
-                console.error('Erro ao enviar conteúdo do post.');
+                console.error('Erro ao criar report:', response);
             }
         } catch (error) {
-            console.error('Erro ao enviar conteúdo do post:', error);
+            console.error('Erro ao enviar conteúdo do report:', error);
         }
     };
 
@@ -135,6 +156,7 @@ const PostForm = () => {
                 fullWidth
                 margin="normal"
             />
+
             <TextField
                 label="Tags"
                 variant="outlined"
@@ -143,19 +165,37 @@ const PostForm = () => {
                 fullWidth
                 margin="normal"
             />
-            <ToggleButtonGroup value={[]} onChange={() => { }} aria-label="text formatting">
+            <ToggleButtonGroup value={[]} onChange={() => { }} aria-label="text formatting" sx={{ mt: 1, display: "flex", justifyContent: "center" }}>
+
+                <ToggleButton value="bold" aria-label="bold">
+                    <FormatBoldIcon />
+                </ToggleButton>
+                <ToggleButton value="italic" aria-label="italic">
+                    <FormatItalicIcon />
+                </ToggleButton>
+                <ToggleButton value="underline" aria-label="underline" onClick={toggleUnderline}>
+                    <FormatUnderlinedIcon />
+                </ToggleButton>
+                <ToggleButton value="bulletList" aria-label="bullet list">
+                    <FormatListBulletedIcon />
+                </ToggleButton>
+                <ToggleButton value="numberedList" aria-label="numbered list">
+                    <FormatListNumberedIcon />
+                </ToggleButton>
+                <ToggleButton value="quote" aria-label="quote">
+                    <FormatQuoteIcon />
+                </ToggleButton>
+
                 <ToggleButton value="bold" aria-label="bold" onClick={toggleBold}>
                     <FormatBoldIcon />
                 </ToggleButton>
                 <ToggleButton value="italic" aria-label="italic" onClick={toggleItalic}>
                     <FormatItalicIcon />
                 </ToggleButton>
-                {/* <ToggleButton value="underlined" aria-label="underlined" onClick={toggleUnderline}>
-                    <FormatUnderlinedIcon />
-                </ToggleButton> */}
                 <ToggleButton
                     component="label"
                     value="insertImage"
+                    lang='asd'
                     aria-label="inserir imagem"
                 >
                     <InsertPhotoIcon />
@@ -166,20 +206,25 @@ const PostForm = () => {
                         onChange={insertImageFromFile}
                     />
                 </ToggleButton>
+                <ToggleButton value="insertChart">
+                    <CandlestickChartIcon />
+                </ToggleButton>
             </ToggleButtonGroup>
             <EditorContent
                 editor={editor}
                 style={{
                     border: '1px solid #ccc',
-                    marginTop: '10px',
-                    padding: '10px', // Adicionando padding interno
+                    marginTop: '16px',
                     minHeight: '200px', // Definindo altura mínima
+                    borderRadius: '4px',
                 }}
             />
-            <Button sx={{ mt: 2 }} variant="contained" onClick={handleSubmit}>Salvar Post</Button>
-
+            <Stack flexDirection="row" justifyContent="space-between" my={2}>
+                <Button variant="contained" color="error" size="small" onClick={handleVoltar}> Cancelar </Button>
+                <Button variant="contained" onClick={handleSubmit}>Salvar</Button>
+            </Stack>
         </div>
     );
 };
 
-export default PostForm;
+export default ReportForm;

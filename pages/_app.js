@@ -1,7 +1,12 @@
-import React from "react"
+import React from "react";
+import { Container } from "@mui/material";
 
 function MyApp({ Component, pageProps }) {
-  return <Component {...pageProps} />
+  return (
+    <Container maxWidth="md" sx={{pt:2}}>
+      <Component {...pageProps} />
+    </Container>
+  );
 }
 
-export default MyApp
+export default MyApp;

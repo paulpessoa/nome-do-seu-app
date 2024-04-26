@@ -6,7 +6,7 @@ Passo 3 ```npm run dev```
 
 
 Endreço da API 
-```https://json-server-blog-fake.vercel.app/posts```
+```https://api-reports-app.vercel.app/reports```
 
 repositório da API
-```https://github.com/paulpessoa/json-server-blog-fake/```
+```https://github.com/paulpessoa/api-reports-app```
